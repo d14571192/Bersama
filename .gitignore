@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+
+# Build
+dist/
+
+# Environment
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
+*.pem
+.vercel
+
+# Testing
+playwright-report/
+test-results/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Coverage
+coverage/
+.env*
+
+.env
+.env.local
+.env.prod
+.env.*.local
+*.bak
+*.testnet.bak
+contracts/target/
+node_modules/
+.next/
+.vercel/
+
+.vercel
+.env*
