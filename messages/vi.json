@@ -1,0 +1,21 @@
+{
+  "Metadata": {
+    "title": "Bersama — Quỹ Từ Thiện Nhân Đôi",
+    "description": "Mỗi đóng góp được nhân đôi bởi cộng đồng. Được hỗ trợ bởi Stellar."
+  },
+  "Nav": {
+    "home": "Trang chủ",
+    "pools": "Quỹ",
+    "donate": "Quyên góp",
+    "connectWallet": "Kết nối ví",
+    "disconnect": "Ngắt kết nối",
+    "language": "Ngôn ngữ"
+  },
+  "Hero": {
+    "eyebrow": "1:1 Nhân đôi qua Soroban",
+    "title": "Mỗi đóng góp\nđược nhân đôi.",
+    "subtitle": "Bersama kết nối người quyên góp với quỹ bảo trợ. Gửi USDC, được nhân đôi 1:1 ngay lập tức.",
+    "ctaPrimary": "Bắt đầu quyên góp",
+    "ctaSecondary": "Tài trợ quỹ"
+  }
+}
