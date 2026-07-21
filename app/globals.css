@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+/*
+  Bersama design system — "warmth that doubles".
+  Coral "bloom" primary · teal "leaf" for matched impact · warm "ink" neutrals
+  on a "paper" canvas. Display = Fraunces, body = Plus Jakarta Sans.
+*/
+
+@theme {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+
+  --color-paper: #fbf8f3;
+  --color-paper-soft: #f4efe7;
+
+  --color-bloom-50: #fdf1ee;
+  --color-bloom-100: #fae0da;
+  --color-bloom-200: #f4c0b4;
+  --color-bloom-300: #ed9c88;
+  --color-bloom-400: #e5755a;
+  --color-bloom-500: #dd533a;
+  --color-bloom-600: #c8412b;
+  --color-bloom-700: #a5331f;
+  --color-bloom-800: #7e2818;
+  --color-bloom-900: #5e1f13;
+
+  --color-leaf-50: #ecf7f2;
+  --color-leaf-100: #d2ede0;
+  --color-leaf-200: #a6dbc2;
+  --color-leaf-300: #71c39e;
+  --color-leaf-400: #3fa87b;
+  --color-leaf-500: #1f8e61;
+  --color-leaf-600: #14724d;
+  --color-leaf-700: #105a3d;
+
+  --color-ink-50: #f6f3ee;
+  --color-ink-100: #eae4da;
+  --color-ink-200: #d8cfc1;
+  --color-ink-300: #b7ab98;
+  --color-ink-400: #8c8170;
+  --color-ink-500: #6b6151;
+  --color-ink-600: #4f473a;
+  --color-ink-700: #3a3329;
+  --color-ink-800: #26211a;
+  --color-ink-900: #17130e;
+
+  --shadow-soft: 0 1px 2px rgba(38, 33, 26, 0.06), 0 2px 8px rgba(38, 33, 26, 0.05);
+  --shadow-lift: 0 4px 12px rgba(38, 33, 26, 0.1), 0 16px 40px rgba(200, 65, 43, 0.08);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink-800);
+    font-family: var(--font-sans);
+  }
+  ::selection {
+    background: var(--color-bloom-200);
+  }
+  .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .bloom-gradient {
+    background: linear-gradient(135deg, #dd533a 0%, #e5755a 55%, #ed9c88 100%);
+  }
+  .leaf-gradient {
+    background: linear-gradient(135deg, #1f8e61 0%, #3fa87b 100%);
+  }
+  .grain {
+    background-image: radial-gradient(rgba(200, 65, 43, 0.05) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+  .live-dot {
+    animation: pulse-dot 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+  .rise {
+    animation: rise 0.5s ease-out both;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
