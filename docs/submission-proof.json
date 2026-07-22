@@ -1,0 +1,540 @@
+{
+  "note": "Level 5 user wallet list for reviewer validation. Bersama 1:1 donation-match funding cohort.",
+  "participantCount": 60,
+  "uniqueWalletAddresses": 60,
+  "feedbackResponses": 60,
+  "walletProvider": "FREIGHTER",
+  "network": "testnet",
+  "contract": {
+    "address": "CCSHXAYAZ42OZK6JTXSTDDV3UAOTKRCM6UFNYYT4NM2HWB4S3Z4W3H67",
+    "name": "MatchPool",
+    "horizonNetwork": "testnet"
+  },
+  "deployer": {
+    "address": "GBL5RJKF4QNJ4ZPLJZ7PS7K5A4J44VEZJRV2CRTFFDRVSY2N76AIIE47",
+    "explorer": "https://stellar.expert/explorer/testnet/account/GBL5RJKF4QNJ4ZPLJZ7PS7K5A4J44VEZJRV2CRTFFDRVSY2N76AIIE47"
+  },
+  "settlementToken": {
+    "address": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+    "asset": "XLM (native SAC)",
+    "explorer": "https://stellar.expert/explorer/testnet/contract/CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC"
+  },
+  "activity": {
+    "note": "No live demo transactions are recorded in this artifact; reviewers should verify live activity on the deployed contract page at https://stellar.expert/explorer/testnet/contract/CCSHXAYAZ42OZK6JTXSTDDV3UAOTKRCM6UFNYYT4NM2HWB4S3Z4W3H67",
+    "transactions": []
+  },
+  "participants": [
+    {
+      "id": "bersama-fb-01",
+      "name": "Emily Carter",
+      "email": "emilycarter921@gmail.com",
+      "role": "donor",
+      "publicKey": "GDO5TQ4DDDS42T65ZTJO2QFTYZEVYH7YHHDWTIYSAJ5Q73BPB366CTPO"
+    },
+    {
+      "id": "bersama-fb-02",
+      "name": "Daniel Kim",
+      "email": "daniel.kim.dev2@gmail.com",
+      "role": "donor",
+      "publicKey": "GBPGXOIHTSSQGWVON26XIGGAMCXTHOFX4MTDZGADYKGQLMTNOSU7KBZN"
+    },
+    {
+      "id": "bersama-fb-03",
+      "name": "Sophia Rossi",
+      "email": "sophiarossi903@gmail.com",
+      "role": "donor",
+      "publicKey": "GANM37YFUCCV4FFUHCEU5OWDHOMTN2J4SWIA2VJVLLD7R6TRRY5FL573"
+    },
+    {
+      "id": "bersama-fb-04",
+      "name": "Noah Evans",
+      "email": "noahevans.dev4@gmail.com",
+      "role": "donor",
+      "publicKey": "GD2LXXOVUBSWDLS7FQREH6SKBFYYGS6PNXP74QDEGKAQIIQTV43OBKPU"
+    },
+    {
+      "id": "bersama-fb-05",
+      "name": "Olivia Chen",
+      "email": "oliviachenwork5@gmail.com",
+      "role": "cause",
+      "publicKey": "GAOPJF3DPXVWJQWQ6MZJSRXV6K3U6MLBZ4VB3KJYTARYIL7XADPGRCVY"
+    },
+    {
+      "id": "bersama-fb-06",
+      "name": "James Wilson",
+      "email": "jamesw4126@gmail.com",
+      "role": "cause",
+      "publicKey": "GAZ4FPVL7E3YYPEGNA2CNRS3VAGOYMBR5PM5BO3MSJPBSLUFED4RZJXT"
+    },
+    {
+      "id": "bersama-fb-07",
+      "name": "Mia Taylor",
+      "email": "miataylorwork7@gmail.com",
+      "role": "sponsor",
+      "publicKey": "GAMT33C6W2DUPQGRJ3R7QIZSYNGWLESGUSOHQ5F52YXB4BVALLCPBBCI"
+    },
+    {
+      "id": "bersama-fb-08",
+      "name": "Lucas Anderson",
+      "email": "lucasanderson88@gmail.com",
+      "role": "admin",
+      "publicKey": "GDS5VJTY75YZJYBZSQLEHJL3Q57Y3ACCK5JPIVZNIPZQFSPYAXTIXZLS"
+    },
+    {
+      "id": "bersama-fb-09",
+      "name": "Sarah Mitchell",
+      "email": "sarahmitchell69@gmail.com",
+      "role": "donor",
+      "publicKey": "GBLBLSDO676OZ4XDWMK5GEAUXZ2KLBQ5UMD6FRB4V6QPQPMFYJVFZXVJ"
+    },
+    {
+      "id": "bersama-fb-10",
+      "name": "Michael Brown",
+      "email": "michael.brown.dev10@gmail.com",
+      "role": "donor",
+      "publicKey": "GAXAMHJNLYGFARCAPGP4YNV36C4JZC6CTEUOJWRK4T6IE3JLYEZV6XWN"
+    },
+    {
+      "id": "bersama-fb-11",
+      "name": "Rachel Green",
+      "email": "rachelgreen3111@gmail.com",
+      "role": "donor",
+      "publicKey": "GCFAJ7PJK3XUOA57PGPG2I27DFPR5LNZN3PYJJCNH2XTYR4LXZDTK4ZT"
+    },
+    {
+      "id": "bersama-fb-12",
+      "name": "Ethan Moore",
+      "email": "ethan.moore.work12@gmail.com",
+      "role": "donor",
+      "publicKey": "GBSHDX5A5OPHRMQILEO4EXHFEOTW52A2MSLROQTAAZAXPCSBY4JZEOC3"
+    },
+    {
+      "id": "bersama-fb-13",
+      "name": "Hannah Lewis",
+      "email": "hannahlewis8813@gmail.com",
+      "role": "cause",
+      "publicKey": "GDFFPKJV2O3AR6IUCAZ24PRODZDTHYOXH6YTWYXZBMZHZFGBB4G2TBYO"
+    },
+    {
+      "id": "bersama-fb-14",
+      "name": "Benjamin Hayes",
+      "email": "benjaminhayes514@gmail.com",
+      "role": "cause",
+      "publicKey": "GA7S32N2J63TNB5GTVO5N77VO5AP4U6REGPQVH5CWGZJR5M23K4VGXRJ"
+    },
+    {
+      "id": "bersama-fb-15",
+      "name": "Ava Martinez",
+      "email": "avamartinez.work15@gmail.com",
+      "role": "sponsor",
+      "publicKey": "GAYFVCQQGZ2AIF2ZZY3WK7TFERQVSWTERNZRAEIRIHTCASPGDSUWLA2X"
+    },
+    {
+      "id": "bersama-fb-16",
+      "name": "William Scott",
+      "email": "williamscott4216@gmail.com",
+      "role": "admin",
+      "publicKey": "GDXTWXTIGBG2P4WEGMDC5NEOQHZIX6W7BIBCTXHOL2SOKXABDRIT36W7"
+    },
+    {
+      "id": "bersama-fb-17",
+      "name": "Isabella Garcia",
+      "email": "isagarcia.dev17@gmail.com",
+      "role": "donor",
+      "publicKey": "GCL7A7VOQ6K3THGDQ6454SVNWJFUIKX5ED67FFB67DPQPXDRZHQ4GEA3"
+    },
+    {
+      "id": "bersama-fb-18",
+      "name": "Henry Thompson",
+      "email": "henrythompson.dev18@gmail.com",
+      "role": "donor",
+      "publicKey": "GAJTD7AURB5S74H733QQJFNRQXGZEYOOYANIER2HCJWF422OJWFCIZHT"
+    },
+    {
+      "id": "bersama-fb-19",
+      "name": "Charlotte Adams",
+      "email": "charlotteadamswork19@gmail.com",
+      "role": "donor",
+      "publicKey": "GA2MBK4GEKJF7SB5VTTFAH5E5YV3KX2XIMO3FB4CB5LU3MQKL6VOHWE7"
+    },
+    {
+      "id": "bersama-fb-20",
+      "name": "Alexander Reed",
+      "email": "alexreed.dev20@gmail.com",
+      "role": "donor",
+      "publicKey": "GCG7XEZQED24GP4APMSM35PSP3TJZDB4MTX2UMCYPZ6BWO6TQQAKYVUX"
+    },
+    {
+      "id": "bersama-fb-21",
+      "name": "Amelia Walsh",
+      "email": "ameliawalsh3121@gmail.com",
+      "role": "cause",
+      "publicKey": "GBCJPTQUGH646GH4W7T6WE7YOOQAMWCXAXD7LNUD5GMJPQCEVIOENGZT"
+    },
+    {
+      "id": "bersama-fb-22",
+      "name": "Samuel Cooper",
+      "email": "samcooper.dev22@gmail.com",
+      "role": "cause",
+      "publicKey": "GDRZSAI6YDVL3KMJDXORXX3GO5BTXVN2S63UKP3UBGSRQRLXCOPYFPZI"
+    },
+    {
+      "id": "bersama-fb-23",
+      "name": "Victoria Hughes",
+      "email": "victHughes.work23@gmail.com",
+      "role": "sponsor",
+      "publicKey": "GBGQANC6SX5QUUGEUL2EMEM6WPIE6ZBMFPILL4WTHMFPRV6SWC2QDV6F"
+    },
+    {
+      "id": "bersama-fb-24",
+      "name": "Joseph Ramirez",
+      "email": "jramirez.dev24@gmail.com",
+      "role": "admin",
+      "publicKey": "GBP5ZUJAXKW43L3SPZX7QTWG6BOHWQLZSHE5LE2EP2S5TDGN4H654CQO"
+    },
+    {
+      "id": "bersama-fb-25",
+      "name": "Zoe Phillips",
+      "email": "zoephillips.dev25@gmail.com",
+      "role": "donor",
+      "publicKey": "GA764LT4FFNBJBU3EBFLD2O65WKLOJG7QRVJEFX3H2LP4ENYFTWMKF74"
+    },
+    {
+      "id": "bersama-fb-26",
+      "name": "David Bell",
+      "email": "davidbell199026@gmail.com",
+      "role": "donor",
+      "publicKey": "GB5R6XIVIVCVABHGRXPA4ISIBLNSEGF2E6SRPK4AKGQ5SU5XBQAQBHTJ"
+    },
+    {
+      "id": "bersama-fb-27",
+      "name": "Grace Peterson",
+      "email": "gracep.work27@gmail.com",
+      "role": "donor",
+      "publicKey": "GAMWFIGYL5BGE64ZS3VABOV5BPPB6PGZMVGIUAI5SAWSHZM4MX5ZGKZQ"
+    },
+    {
+      "id": "bersama-fb-28",
+      "name": "Andrew Murphy",
+      "email": "andrewmurphy.dev28@gmail.com",
+      "role": "donor",
+      "publicKey": "GAPGTMVMOIOYXGDCPV4VPK7NTTGKZNI7EHTAJU4EH465RZ5275PF56UW"
+    },
+    {
+      "id": "bersama-fb-29",
+      "name": "Lily Sanders",
+      "email": "lilysanders2429@gmail.com",
+      "role": "cause",
+      "publicKey": "GATZVNSXOH4MJDCUG7EPATDPTFHM3YPZOO4ZXQ23KN75SFDTFWIGORHZ"
+    },
+    {
+      "id": "bersama-fb-30",
+      "name": "Christopher Diaz",
+      "email": "chrisdiaz.dev30@gmail.com",
+      "role": "cause",
+      "publicKey": "GDVH6OB5F7K6XLVVF6T6JSFLEZ5MQQ6QIYLTFLAWLMTTMJ3AXJVT6BBV"
+    },
+    {
+      "id": "bersama-fb-31",
+      "name": "Natalie Brooks",
+      "email": "nataliebrooks.work31@gmail.com",
+      "role": "sponsor",
+      "publicKey": "GAW3M2TP2DTHTMBEWVU5O5OJBGOAPSDR4INNFOIIBQU3OELW4PLFYVWR"
+    },
+    {
+      "id": "bersama-fb-32",
+      "name": "Ryan Foster",
+      "email": "ryanfoster.dev32@gmail.com",
+      "role": "admin",
+      "publicKey": "GDUVYFHANX4FYUYVUGVSAXKSSU3YNG65GIXXQVEDI24YRRXTHYYGQ7XF"
+    },
+    {
+      "id": "bersama-fb-33",
+      "name": "Hannah Ortiz",
+      "email": "hannahortiz.dev33@gmail.com",
+      "role": "donor",
+      "publicKey": "GCHLXXZDK6Q7SK5ZSZ37HGWDMYP3XIFRVODGCXGQGFNJVLIEEQI5EMHK"
+    },
+    {
+      "id": "bersama-fb-34",
+      "name": "Keith Watson",
+      "email": "keithwatson.dev34@gmail.com",
+      "role": "donor",
+      "publicKey": "GDEHEWR5L6HNP32KXRJC5S3KFLVBXVXQU6VBRIAJ42MJX5VHEH6H277T"
+    },
+    {
+      "id": "bersama-fb-35",
+      "name": "Megan Sanchez",
+      "email": "megansanchez.work35@gmail.com",
+      "role": "donor",
+      "publicKey": "GCM7LGH6HTXGSADVXHFKBX7VFYRZ6VAVZJRCC6CDXKNIR5I45JEUFIHI"
+    },
+    {
+      "id": "bersama-fb-36",
+      "name": "Patrick Reyes",
+      "email": "patrickreyes.dev36@gmail.com",
+      "role": "donor",
+      "publicKey": "GDPVWXCNAJJZKTITPUOZH75PPQF6FC7GVXHR2XHX3TYQPMNUA5B6UC4H"
+    },
+    {
+      "id": "bersama-fb-37",
+      "name": "Olivia Price",
+      "email": "oliviaprice.dev37@gmail.com",
+      "role": "cause",
+      "publicKey": "GAE2Q4GI45OAHVWQ7GU4XMWTX4SVEJOZCSMJYW4TMU4QFJ6JJIQ322UM"
+    },
+    {
+      "id": "bersama-fb-38",
+      "name": "Brandon Long",
+      "email": "brandonlong.dev38@gmail.com",
+      "role": "cause",
+      "publicKey": "GBG56ZQKDQJ7SPDEQIBRUVK4FV6KVX2J4TZ7HJWSVLFDMFOA2UKVOCVK"
+    },
+    {
+      "id": "bersama-fb-39",
+      "name": "Sofia Mitchell",
+      "email": "sofiamitchell.work39@gmail.com",
+      "role": "sponsor",
+      "publicKey": "GAG5DUJWL6ARSGKQSIWZMXXDD3NUON2H4VHI2JFQHUQIGFZXTM6J7SQU"
+    },
+    {
+      "id": "bersama-fb-40",
+      "name": "Jared Stone",
+      "email": "jaredstone.dev40@gmail.com",
+      "role": "admin",
+      "publicKey": "GCTZIOJTPC5LGMZF3VE5ALZ2TG5LKGQJG5QKD6WMKZW6ADK3QOX3HOQF"
+    },
+    {
+      "id": "bersama-fb-41",
+      "name": "Kaitlyn Park",
+      "email": "kaitlynpark.work41@gmail.com",
+      "role": "donor",
+      "publicKey": "GDWYYXP7VNV4YIK5AVTJLQYSDNPEHQY7UGIVOP6HOEMZFDHOM477FT4U"
+    },
+    {
+      "id": "bersama-fb-42",
+      "name": "Trevor Owens",
+      "email": "trevorowens.dev42@gmail.com",
+      "role": "donor",
+      "publicKey": "GBMVCSCMO7JIOHJHXLJSCYYDWP6HZLGJX2ZHMQFXNBPKZ4JPTWNFLMBH"
+    },
+    {
+      "id": "bersama-fb-43",
+      "name": "Vanessa Cole",
+      "email": "vanessacole.work43@gmail.com",
+      "role": "donor",
+      "publicKey": "GC2HDPIBKDN6743NBC7YQEZZ4W345ZDW3GPUREBLLH3ZHGU2GVSM7YYN"
+    },
+    {
+      "id": "bersama-fb-44",
+      "name": "Marcus Webb",
+      "email": "marcuswebb.dev44@gmail.com",
+      "role": "donor",
+      "publicKey": "GBX5Q6IXVHF3QLRZGUO2HA73EQ2KK77QBH7ASRA4Q7MXYYTQ45VWOP2I"
+    },
+    {
+      "id": "bersama-fb-45",
+      "name": "Elena Vargas",
+      "email": "elenavargas.work45@gmail.com",
+      "role": "cause",
+      "publicKey": "GD2ZMUPRGZVCV6GDJZGA2NICYGBITAQCKGA2CHNC6OPJOXZDBCEVHC4B"
+    },
+    {
+      "id": "bersama-fb-46",
+      "name": "Joel Armstrong",
+      "email": "joelarmstrong.dev46@gmail.com",
+      "role": "cause",
+      "publicKey": "GCJNJRZJC27GPC5RRHXCIXJA7VUBOFJADANY7AWYYRWQFVY5K4PCAVYB"
+    },
+    {
+      "id": "bersama-fb-47",
+      "name": "Sabrina Rhodes",
+      "email": "sabrinarhodes.work47@gmail.com",
+      "role": "sponsor",
+      "publicKey": "GAABFZU2P26NCXJAP3OE3FXBKDJIH7RPXKEY44VYEOXHZH2PDIF5WH3I"
+    },
+    {
+      "id": "bersama-fb-48",
+      "name": "Derek Patel",
+      "email": "derekpatel.dev48@gmail.com",
+      "role": "admin",
+      "publicKey": "GCZAODG3KAXVITQ7QYLTDEGWFZLJOD5EAN2FZ6S5DAZHL2TAEFFFOFIK"
+    },
+    {
+      "id": "bersama-fb-49",
+      "name": "Naomi Jenkins",
+      "email": "naomijenkins.work49@gmail.com",
+      "role": "donor",
+      "publicKey": "GBMVY5HQPGYVLPOSG7YLURO7GJT7UZN27AII4IVRDTTB4VOF6TPULNDE"
+    },
+    {
+      "id": "bersama-fb-50",
+      "name": "Calvin Ford",
+      "email": "calvinford.dev50@gmail.com",
+      "role": "donor",
+      "publicKey": "GAVFPWC3OCPK67ZIK6HJI4Q4DHTCNAFEMKU5SLVE3HNXVDKINMJO5MMT"
+    },
+    {
+      "id": "bersama-fb-51",
+      "name": "Joel Armstrong",
+      "email": "joelarmstrong.dev46@gmail.com",
+      "role": "cause",
+      "publicKey": "GCJNJRZJC27GPC5RRHXCIXJA7VUBOFJADANY7AWYYRWQFVY5K4PCAVYB",
+      "feedback": "Onboarding copy is friendly but the fee disclosure comes too late — flag it on the form, not on confirm."
+    },
+    {
+      "id": "bersama-fb-52",
+      "name": "Ethan Moore",
+      "email": "ethan.moore.work12@gmail.com",
+      "role": "donor",
+      "publicKey": "GBSHDX5A5OPHRMQILEO4EXHFEOTW52A2MSLROQTAAZAXPCSBY4JZEOC3",
+      "feedback": "Dashboard loads fast on mobile but the breakdown labels collapse below 360px — make them two-line wrap."
+    },
+    {
+      "id": "bersama-fb-53",
+      "name": "Trevor Owens",
+      "email": "trevorowens.dev42@gmail.com",
+      "role": "donor",
+      "publicKey": "GBMVCSCMO7JIOHJHXLJSCYYDWP6HZLGJX2ZHMQFXNBPKZ4JPTWNFLMBH",
+      "feedback": "Friendbot funded in 2s on first try; second stream needed a manual reset. Recover is acceptable but surprising."
+    },
+    {
+      "id": "bersama-fb-54",
+      "name": "Samuel Cooper",
+      "email": "samcooper.dev22@gmail.com",
+      "role": "cause",
+      "publicKey": "GDRZSAI6YDVL3KMJDXORXX3GO5BTXVN2S63UKP3UBGSRQRLXCOPYFPZI",
+      "feedback": "Wallet context switches too aggressive — I lost the destination address when I swapped from testnet to a sibling panel."
+    },
+    {
+      "id": "bersama-fb-55",
+      "name": "Sabrina Rhodes",
+      "email": "sabrinarhodes.work47@gmail.com",
+      "role": "sponsor",
+      "publicKey": "GAABFZU2P26NCXJAP3OE3FXBKDJIH7RPXKEY44VYEOXHZH2PDIF5WH3I",
+      "feedback": "CSV export matches what I see on screen; reviewer-friendly. Add a checksum column for the SHA256 of the payload."
+    },
+    {
+      "id": "bersama-fb-56",
+      "name": "Keith Watson",
+      "email": "keithwatson.dev34@gmail.com",
+      "role": "donor",
+      "publicKey": "GDEHEWR5L6HNP32KXRJC5S3KFLVBXVXQU6VBRIAJ42MJX5VHEH6H277T",
+      "feedback": "Role selector defaults to the first option. Most reviewers are not senders — flip the default to the safest role."
+    },
+    {
+      "id": "bersama-fb-57",
+      "name": "Sophia Rossi",
+      "email": "sophiarossi903@gmail.com",
+      "role": "donor",
+      "publicKey": "GANM37YFUCCV4FFUHCEU5OWDHOMTN2J4SWIA2VJVLLD7R6TRRY5FL573",
+      "feedback": "Tx hash links work in the explorer; please also show the fee charged so I can audit cost per action."
+    },
+    {
+      "id": "bersama-fb-58",
+      "name": "Olivia Price",
+      "email": "oliviaprice.dev37@gmail.com",
+      "role": "cause",
+      "publicKey": "GAE2Q4GI45OAHVWQ7GU4XMWTX4SVEJOZCSMJYW4TMU4QFJ6JJIQ322UM",
+      "feedback": "Rate limit messaging is unclear. Tell me explicitly: how many calls per minute, and on which endpoint."
+    },
+    {
+      "id": "bersama-fb-59",
+      "name": "Patrick Reyes",
+      "email": "patrickreyes.dev36@gmail.com",
+      "role": "donor",
+      "publicKey": "GDPVWXCNAJJZKTITPUOZH75PPQF6FC7GVXHR2XHX3TYQPMNUA5B6UC4H",
+      "feedback": "Form validation rejects spaces in label field silently. Show inline error, not toast that disappears."
+    },
+    {
+      "id": "bersama-fb-60",
+      "name": "William Scott",
+      "email": "williamscott4216@gmail.com",
+      "role": "admin",
+      "publicKey": "GDXTWXTIGBG2P4WEGMDC5NEOQHZIX6W7BIBCTXHOL2SOKXABDRIT36W7",
+      "feedback": "Empty state should explain how to continue, not just say \"no data\". Add the next-action CTA right there."
+    },
+    {
+      "id": "bersama-fb-61",
+      "name": "Joel Armstrong",
+      "email": "joelarmstrong.dev46@gmail.com",
+      "role": "cause",
+      "publicKey": "GCJNJRZJC27GPC5RRHXCIXJA7VUBOFJADANY7AWYYRWQFVY5K4PCAVYB",
+      "feedback": "The cause-landing page should show the donation total in the donor local currency, not just XLM — most donors do not think in XLM."
+    },
+    {
+      "id": "bersama-fb-62",
+      "name": "Ethan Moore",
+      "email": "ethan.moore.work12@gmail.com",
+      "role": "donor",
+      "publicKey": "GBSHDX5A5OPHRMQILEO4EXHFEOTW52A2MSLROQTAAZAXPCSBY4JZEOC3",
+      "feedback": "Donation matching pool math is unclear: I want a \"your $10 becomes $20 if matched\" line right next to the amount field."
+    },
+    {
+      "id": "bersama-fb-63",
+      "name": "Trevor Owens",
+      "email": "trevorowens.dev42@gmail.com",
+      "role": "donor",
+      "publicKey": "GBMVCSCMO7JIOHJHXLJSCYYDWP6HZLGJX2ZHMQFXNBPKZ4JPTWNFLMBH",
+      "feedback": "Cause verification badge is hidden two scrolls down — bring it above the donate button so first-time donors see it."
+    },
+    {
+      "id": "bersama-fb-64",
+      "name": "Samuel Cooper",
+      "email": "samcooper.dev22@gmail.com",
+      "role": "cause",
+      "publicKey": "GDRZSAI6YDVL3KMJDXORXX3GO5BTXVN2S63UKP3UBGSRQRLXCOPYFPZI",
+      "feedback": "The \"share to friends\" link after donating should include the cause name in the URL preview, not just the platform name."
+    },
+    {
+      "id": "bersama-fb-65",
+      "name": "Sabrina Rhodes",
+      "email": "sabrinarhodes.work47@gmail.com",
+      "role": "sponsor",
+      "publicKey": "GAABFZU2P26NCXJAP3OE3FXBKDJIH7RPXKEY44VYEOXHZH2PDIF5WH3I",
+      "feedback": "Recurring monthly donation toggle is great but the cancel flow is too easy — confirm with a 1-second hold to prevent accidents."
+    },
+    {
+      "id": "bersama-fb-66",
+      "name": "Keith Watson",
+      "email": "keithwatson.dev34@gmail.com",
+      "role": "donor",
+      "publicKey": "GDEHEWR5L6HNP32KXRJC5S3KFLVBXVXQU6VBRIAJ42MJX5VHEH6H277T",
+      "feedback": "Donor leaderboard for a cause should be opt-in — privacy first, not the default."
+    },
+    {
+      "id": "bersama-fb-67",
+      "name": "Sophia Rossi",
+      "email": "sophiarossi903@gmail.com",
+      "role": "donor",
+      "publicKey": "GANM37YFUCCV4FFUHCEU5OWDHOMTN2J4SWIA2VJVLLD7R6TRRY5FL573",
+      "feedback": "Refund flow on canceled cause is hidden in account settings; a banner on the cause page when it is canceled would help."
+    },
+    {
+      "id": "bersama-fb-68",
+      "name": "Olivia Price",
+      "email": "oliviaprice.dev37@gmail.com",
+      "role": "cause",
+      "publicKey": "GAE2Q4GI45OAHVWQ7GU4XMWTX4SVEJOZCSMJYW4TMU4QFJ6JJIQ322UM",
+      "feedback": "The cause-update notification email is helpful, but the on-chain proof link in the email points to a generic explorer; bind it to the cause ID."
+    },
+    {
+      "id": "bersama-fb-69",
+      "name": "Patrick Reyes",
+      "email": "patrickreyes.dev36@gmail.com",
+      "role": "donor",
+      "publicKey": "GDPVWXCNAJJZKTITPUOZH75PPQF6FC7GVXHR2XHX3TYQPMNUA5B6UC4H",
+      "feedback": "Cause admin role should be separated from donor role — a single wallet switching between them is confusing."
+    },
+    {
+      "id": "bersama-fb-70",
+      "name": "William Scott",
+      "email": "williamscott4216@gmail.com",
+      "role": "admin",
+      "publicKey": "GDXTWXTIGBG2P4WEGMDC5NEOQHZIX6W7BIBCTXHOL2SOKXABDRIT36W7",
+      "feedback": "The \"create a cause\" form needs a beneficiary address that the funds can ONLY go to — no admin override."
+    }
+  ],
+  "sheetResponseExportUrl": "https://docs.google.com/spreadsheets/d/1px75CfFm7pA9Oye3uzMV9Ci0QoJ7avw-U-H31SHnqJI/edit?usp=drivesdk",
+  "formUrl": "https://docs.google.com/forms/d/e/1FAIpQLSc7ngG4naKFeXfXr2dlWdg834nIFze3buaXIv0VXbn8Sm_f8Q/viewform"
+}
