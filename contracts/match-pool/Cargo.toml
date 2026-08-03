@@ -1,0 +1,17 @@
+[package]
+name = "match-pool"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "MIT"
+description = "Soroban matched-donation pool: a sponsor funds a 1:1 match pool; each donor gift pays the cause the gift PLUS a matching amount from the pool, atomically on-chain. Powers the Bersama app."
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+doctest = false
+
+[dependencies]
+soroban-sdk = "22"
+
+[dev-dependencies]
+soroban-sdk = { version = "22", features = ["testutils"] }
