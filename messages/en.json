@@ -1,0 +1,21 @@
+{
+  "Metadata": {
+    "title": "Bersama — Donation Matching Pool",
+    "description": "Every donation doubled by the community. Powered by Stellar."
+  },
+  "Nav": {
+    "home": "Home",
+    "pools": "Pools",
+    "donate": "Donate",
+    "connectWallet": "Connect wallet",
+    "disconnect": "Disconnect",
+    "language": "Language"
+  },
+  "Hero": {
+    "eyebrow": "Soroban-powered 1:1 Match",
+    "title": "Every donation\ndoubled.",
+    "subtitle": "Bersama connects donors with sponsor match pools. Send USDC, get matched 1:1 instantly — see your impact double in real time.",
+    "ctaPrimary": "Start donating",
+    "ctaSecondary": "Fund a pool"
+  }
+}
