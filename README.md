@@ -22,7 +22,7 @@
 
 Submit your GitHub repository link below before the monthly deadline:
 
-**https://github.com/your-org/Bersama**
+**https://github.com/d14571192/Bersama**
 
 <details>
 <summary>Current evidence totals</summary>
