@@ -2,5 +2,6 @@ import { prepareTrustline } from '@/server/controller/pool.controller';
 import { compose } from '@/server/middleware/compose';
 import { withAuth } from '@/server/middleware/withAuth';
 import { withError } from '@/server/middleware/withError';
+import { withRateLimit } from '@/server/middleware/withRateLimit';
 
-export const POST = compose(withError, withAuth)(prepareTrustline);
+export const POST = compose(withError, withRateLimit, withAuth)(prepareTrustline);
