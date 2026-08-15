@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Footer } from '@/components/Footer';
 import { Nav } from '@/components/Nav';
-import { explorerAccount, formatAmount, formatAmountWithAsset, truncateKey } from '@/lib/assets';
+import { explorerAccount, formatAmount, truncateKey } from '@/lib/assets';
 
 interface Pool {
   id: string;
@@ -20,17 +20,54 @@ interface Pool {
   status: string;
 }
 
+const POOL_FILTERS = ['all', 'active', 'depleted', 'closed'] as const;
+type PoolFilter = (typeof POOL_FILTERS)[number];
+
+async function fetchPoolPage(statusFilter: PoolFilter, cursor?: string) {
+  const searchParams = new URLSearchParams();
+  if (statusFilter !== 'all') searchParams.set('status', statusFilter);
+  if (cursor) searchParams.set('cursor', cursor);
+  const response = await fetch(`/api/pools?${searchParams}`);
+  const payload = await response.json();
+  if (!payload.ok) throw new Error(payload.error?.message ?? 'Could not load causes');
+  return payload.data as { pools: Pool[]; nextCursor: string | null };
+}
+
 export default function CausesPage() {
   const [pools, setPools] = useState<Pool[]>([]);
+  const [statusFilter, setStatusFilter] = useState<PoolFilter>('all');
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
-    fetch('/api/pools')
-      .then((r) => r.json())
-      .then((d) => d.ok && setPools(d.data.pools))
+    let abandoned = false;
+    setLoading(true);
+    fetchPoolPage(statusFilter)
+      .then((page) => {
+        if (abandoned) return;
+        setPools(page.pools);
+        setNextCursor(page.nextCursor);
+      })
       .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
+      .finally(() => {
+        if (!abandoned) setLoading(false);
+      });
+    return () => {
+      abandoned = true;
+    };
+  }, [statusFilter]);
+
+  const loadOlderPools = async () => {
+    if (!nextCursor || loadingMore) return;
+    setLoadingMore(true);
+    const page = await fetchPoolPage(statusFilter, nextCursor).catch(() => null);
+    if (page) {
+      setPools((loaded) => [...loaded, ...page.pools]);
+      setNextCursor(page.nextCursor);
+    }
+    setLoadingMore(false);
+  };
 
   return (
     <div className="min-h-screen">
@@ -49,6 +86,23 @@ export default function CausesPage() {
           >
             <Plus className="h-4 w-4" /> Open a cause
           </Link>
+        </div>
+
+        <div className="mt-8 flex flex-wrap gap-2">
+          {POOL_FILTERS.map((filter) => (
+            <button
+              key={filter}
+              type="button"
+              onClick={() => setStatusFilter(filter)}
+              className={`rounded-full px-4 py-1.5 text-sm font-semibold capitalize transition-colors ${
+                statusFilter === filter
+                  ? 'bg-bloom-600 text-white'
+                  : 'bg-ink-50 text-ink-600 hover:bg-ink-100'
+              }`}
+            >
+              {filter}
+            </button>
+          ))}
         </div>
 
         {loading ? (
@@ -103,7 +157,10 @@ export default function CausesPage() {
                     <Metric label="Left" value={formatAmount(p.remainingMinor)} />
                   </div>
                   <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-ink-100">
-                    <div className="h-full rounded-full leaf-gradient" style={{ width: `${Math.min(100, pct)}%` }} />
+                    <div
+                      className="h-full rounded-full leaf-gradient"
+                      style={{ width: `${Math.min(100, pct)}%` }}
+                    />
                   </div>
 
                   <div className="mt-4 flex items-center justify-between">
@@ -129,6 +186,19 @@ export default function CausesPage() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {!loading && nextCursor && (
+          <div className="mt-10 flex justify-center">
+            <button
+              type="button"
+              onClick={loadOlderPools}
+              disabled={loadingMore}
+              className="rounded-xl border border-ink-200 px-6 py-2.5 text-sm font-semibold text-ink-700 transition-colors hover:bg-ink-50 disabled:opacity-60"
+            >
+              {loadingMore ? 'Loading…' : 'Load more causes'}
+            </button>
           </div>
         )}
       </div>
