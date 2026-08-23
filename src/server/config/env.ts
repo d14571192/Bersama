@@ -31,10 +31,6 @@ const envSchema = z.object({
     .string()
     .min(56)
     .default('CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC'),
-  APP_CONTRACT_ID: z
-    .string()
-    .min(56)
-    .default('CDYRUMJ4WMWRGTFKWNUTFR3UE2T5VTQ64REVXOKUZPF6AH25NGE2P5OO'),
 
   SESSION_SECRET: z.string().min(32, 'SESSION_SECRET must be at least 32 chars'),
   SESSION_COOKIE_NAME: z.string().default('bersama_session'),

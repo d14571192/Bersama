@@ -1,31 +1,20 @@
-import { and, count, countDistinct, desc, eq, lt, notInArray, sql, sum } from 'drizzle-orm';
-import type { AnyPgColumn } from 'drizzle-orm/pg-core';
+import { and, desc, eq, sql } from 'drizzle-orm';
 import { db } from '@/server/db/client';
 import { donations, matchPools, sessions } from '@/server/db/schema';
-import type { Donation, DonationStatus, MatchPool, PoolStatus } from '@/server/db/schema';
+import type { Donation, MatchPool } from '@/server/db/schema';
 import { eventBus } from '@/server/lib/eventBus';
 import { AppError } from '@/server/lib/http';
-import { submitDonate, submitFundPool } from '@/server/stellar';
-import { readPoolBalanceStroops } from '@/server/stellar/matchPool';
+import { submitDonate, submitFundPool, readPoolBalanceStroops } from '@/server/stellar';
 import { formatAmount, truncateKey } from '@/lib/assets';
 
-export const DEFAULT_PAGE_SIZE = 30;
-export const MAX_PAGE_SIZE = 100;
-
-export type PoolListQuery = {
-  status?: PoolStatus;
-  cursor?: string;
-  limit?: number;
-};
-
-export type DonationListQuery = {
-  poolId?: string;
-  status?: DonationStatus;
-  cursor?: string;
-  limit?: number;
-};
-
 export const matchPoolService = {
+  // ── Pool operations ──────────────────────────────────────────────────
+
+  /**
+   * Persist a pool AFTER its sponsor has funded the match on-chain. The
+   * `poolKey`, `fundTxHash`, and funded amount all come from the settled
+   * Soroban `fund_pool` invoke — nothing is recorded that didn't settle.
+   */
   async recordFundedPool(params: {
     sponsorPublicKey: string;
     sponsorName: string;
@@ -89,22 +78,8 @@ export const matchPoolService = {
     });
   },
 
-  async listPools(
-    query: PoolListQuery = {},
-  ): Promise<{ pools: MatchPool[]; nextCursor: string | null }> {
-    const pageSize = query.limit ?? DEFAULT_PAGE_SIZE;
-    const filters = [];
-    if (query.status) filters.push(eq(matchPools.status, query.status));
-    if (query.cursor) filters.push(lt(matchPools.createdAt, new Date(query.cursor)));
-
-    const pools = await db
-      .select()
-      .from(matchPools)
-      .where(filters.length > 0 ? and(...filters) : undefined)
-      .orderBy(desc(matchPools.createdAt))
-      .limit(pageSize);
-
-    return { pools, nextCursor: nextCursorFor(pools, pageSize) };
+  async listPools(): Promise<MatchPool[]> {
+    return db.select().from(matchPools).orderBy(desc(matchPools.createdAt)).limit(30);
   },
 
   async getPool(id: string): Promise<MatchPool> {
@@ -113,25 +88,13 @@ export const matchPoolService = {
     return pool;
   },
 
-  async listDonations(
-    query: DonationListQuery = {},
-  ): Promise<{ donations: Donation[]; nextCursor: string | null }> {
-    const pageSize = query.limit ?? DEFAULT_PAGE_SIZE;
-    const filters = [];
-    if (query.poolId) filters.push(eq(donations.poolId, query.poolId));
-    if (query.status) filters.push(eq(donations.status, query.status));
-    if (query.cursor) filters.push(lt(donations.createdAt, new Date(query.cursor)));
+  // ── Donation flow (real on-chain via the Match Pool contract) ─────────
 
-    const rows = await db
-      .select()
-      .from(donations)
-      .where(filters.length > 0 ? and(...filters) : undefined)
-      .orderBy(desc(donations.createdAt))
-      .limit(pageSize);
-
-    return { donations: rows, nextCursor: nextCursorFor(rows, pageSize) };
-  },
-
+  /**
+   * Confirm a donation by submitting the donor-signed `donate` invoke. The
+   * contract atomically pays the cause the gift + its 1:1 match and returns the
+   * exact split, which we persist and use to refresh the pool ledger.
+   */
   async confirmDonation(params: {
     poolId: string;
     donorPublicKey: string;
@@ -145,6 +108,7 @@ export const matchPoolService = {
       .limit(1);
     if (!pool) throw new AppError('NOT_FOUND', 'Active match pool not found', 404);
 
+    // Submit the atomic on-chain gift + match.
     const receipt = await submitDonate(params.signedXdr);
 
     const [donation] = await db
@@ -159,16 +123,25 @@ export const matchPoolService = {
         totalImpactMinor: receipt.total,
         status: 'matched',
         horizonTxHash: receipt.hash,
-        matchTxHash: receipt.hash,
+        matchTxHash: receipt.hash, // same atomic tx settles both legs
         memo: params.memo,
       })
       .returning();
 
-    const ledger = await applyPoolLedgerSettlement({
-      poolId: params.poolId,
-      remainingMinor: BigInt(receipt.remaining),
-      matchedIncrementMinor: BigInt(receipt.matched),
-    });
+    // Refresh the pool ledger from the contract's authoritative remaining.
+    const newRemaining = BigInt(receipt.remaining);
+    const newMatched = BigInt(pool.matchedMinor) + BigInt(receipt.matched);
+    const newStatus = newRemaining <= 0n ? 'depleted' : 'active';
+    await db
+      .update(matchPools)
+      .set({
+        remainingMinor: newRemaining.toString(),
+        matchedMinor: newMatched.toString(),
+        status: newStatus as 'active' | 'depleted',
+        version: sql`${matchPools.version} + 1`,
+        updatedAt: new Date(),
+      })
+      .where(and(eq(matchPools.id, params.poolId), eq(matchPools.version, pool.version)));
 
     eventBus.publish('donation.matched', {
       donationId: donation.id,
@@ -177,18 +150,30 @@ export const matchPoolService = {
       amountMinor: donation.amountMinor,
       matchedAmountMinor: donation.matchedAmountMinor,
       totalImpactMinor: donation.totalImpactMinor,
-      status: donation.status,
+      status: 'matched',
       occurredAt: new Date(),
     });
     eventBus.publish('pool.updated', {
       poolId: params.poolId,
-      remainingMinor: ledger.remainingMinor,
-      matchedMinor: ledger.matchedMinor,
-      status: ledger.status,
+      remainingMinor: newRemaining.toString(),
+      matchedMinor: newMatched.toString(),
+      status: newStatus,
       occurredAt: new Date(),
     });
 
     return donation;
+  },
+
+  async listDonations(poolId?: string): Promise<Donation[]> {
+    if (poolId) {
+      return db
+        .select()
+        .from(donations)
+        .where(eq(donations.poolId, poolId))
+        .orderBy(desc(donations.createdAt))
+        .limit(50);
+    }
+    return db.select().from(donations).orderBy(desc(donations.createdAt)).limit(50);
   },
 
   async getPoolStats(): Promise<{
@@ -198,31 +183,27 @@ export const matchPoolService = {
     totalImpactMinor: string;
     activePools: number;
   }> {
-    const [donationTotals] = await db
-      .select({
-        donorCount: countDistinct(donations.donorPublicKey),
-        donatedMinor: sumOfMinorAmounts(donations.amountMinor),
-        matchedMinor: sumOfMinorAmounts(donations.matchedAmountMinor),
-      })
-      .from(donations)
-      .where(eq(donations.status, 'matched'));
+    const matched = await db.select().from(donations).where(eq(donations.status, 'matched'));
+    const active = await db.select().from(matchPools).where(eq(matchPools.status, 'active'));
 
-    const [poolTotals] = await db
-      .select({ activeCount: count() })
-      .from(matchPools)
-      .where(eq(matchPools.status, 'active'));
-
-    const totalDonated = BigInt(minorAmountOrZero(donationTotals?.donatedMinor));
-    const totalMatched = BigInt(minorAmountOrZero(donationTotals?.matchedMinor));
+    let totalDonated = 0n;
+    let totalMatched = 0n;
+    const donors = new Set<string>();
+    for (const d of matched) {
+      totalDonated += BigInt(d.amountMinor);
+      totalMatched += BigInt(d.matchedAmountMinor);
+      donors.add(d.donorPublicKey);
+    }
     return {
-      totalDonors: donationTotals?.donorCount ?? 0,
+      totalDonors: donors.size,
       totalDonatedMinor: totalDonated.toString(),
       totalMatchedMinor: totalMatched.toString(),
       totalImpactMinor: (totalDonated + totalMatched).toString(),
-      activePools: poolTotals?.activeCount ?? 0,
+      activePools: active.length,
     };
   },
 
+  /** Public interaction stats — real wallet sessions + on-chain entity counts. */
   async getInteractionStats(): Promise<{
     uniqueWallets: number;
     logins: number;
@@ -233,110 +214,50 @@ export const matchPoolService = {
     onChainTxs: number;
     poolBalanceXlm: string;
   }> {
-    const [sessionTotals] = await db
-      .select({
-        walletCount: countDistinct(sessions.publicKey),
-        loginCount: count(),
-      })
-      .from(sessions)
-      .where(notInArray(sessions.publicKey, DEMO_PUBLIC_KEYS));
+    const allSessions = await db.select().from(sessions);
+    const realSessions = allSessions.filter((s) => !DEMO_KEYS.has(s.publicKey));
+    const wallets = new Set(realSessions.map((s) => s.publicKey));
 
-    const [poolTotals] = await db
-      .select({
-        poolCount: count(),
-        fundedOnChainCount: count(matchPools.fundTxHash),
-      })
-      .from(matchPools);
+    const allPools = await db.select().from(matchPools);
+    const matched = await db.select().from(donations).where(eq(donations.status, 'matched'));
 
-    const [donationTotals] = await db
-      .select({
-        donationCount: count(),
-        matchedMinor: sumOfMinorAmounts(donations.matchedAmountMinor),
-        impactMinor: sumOfMinorAmounts(donations.totalImpactMinor),
-        settledOnChainCount: count(donations.horizonTxHash),
-      })
-      .from(donations)
-      .where(eq(donations.status, 'matched'));
-
-    const poolBalanceXlm = await (async () => {
-      try {
-        const stroops = BigInt(await readPoolBalanceStroops());
-        const whole = stroops / 10_000_000n;
-        const fractional = stroops % 10_000_000n;
-        return `${whole}.${fractional.toString().padStart(7, '0').slice(0, 4)}`;
-      } catch {
-        return '0.0000';
-      }
-    })();
+    let totalMatched = 0n;
+    let totalImpact = 0n;
+    let onChainTxs = 0;
+    for (const d of matched) {
+      totalMatched += BigInt(d.matchedAmountMinor);
+      totalImpact += BigInt(d.totalImpactMinor);
+      if (d.horizonTxHash) onChainTxs += 1;
+    }
+    // Each seeded/created pool was funded by one on-chain fund_pool tx.
+    for (const p of allPools) {
+      if (p.fundTxHash) onChainTxs += 1;
+    }
 
     return {
-      uniqueWallets: sessionTotals?.walletCount ?? 0,
-      logins: sessionTotals?.loginCount ?? 0,
-      pools: poolTotals?.poolCount ?? 0,
-      donations: donationTotals?.donationCount ?? 0,
-      totalMatchedMinor: BigInt(minorAmountOrZero(donationTotals?.matchedMinor)).toString(),
-      totalImpactMinor: BigInt(minorAmountOrZero(donationTotals?.impactMinor)).toString(),
-      onChainTxs:
-        (donationTotals?.settledOnChainCount ?? 0) + (poolTotals?.fundedOnChainCount ?? 0),
-      poolBalanceXlm,
+      uniqueWallets: wallets.size,
+      logins: realSessions.length,
+      pools: allPools.length,
+      donations: matched.length,
+      totalMatchedMinor: totalMatched.toString(),
+      totalImpactMinor: totalImpact.toString(),
+      onChainTxs,
+      poolBalanceXlm: await (async () => {
+        try {
+          const stroops = BigInt(await readPoolBalanceStroops());
+          return (Number(stroops) / 1e7).toFixed(4);
+        } catch {
+          return '0.0000';
+        }
+      })(),
     };
   },
 };
 
-const DEMO_PUBLIC_KEYS = [
+// System / issuer addresses excluded from interaction stats.
+const DEMO_KEYS = new Set<string>([
   'GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5',
   'GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN',
-];
-
-const POOL_LEDGER_SETTLEMENT_ATTEMPTS = 3;
-
-async function applyPoolLedgerSettlement(params: {
-  poolId: string;
-  remainingMinor: bigint;
-  matchedIncrementMinor: bigint;
-}): Promise<{ remainingMinor: string; matchedMinor: string; status: 'active' | 'depleted' }> {
-  const status = params.remainingMinor <= 0n ? 'depleted' : 'active';
-
-  for (let attempt = 0; attempt < POOL_LEDGER_SETTLEMENT_ATTEMPTS; attempt += 1) {
-    const [current] = await db
-      .select()
-      .from(matchPools)
-      .where(eq(matchPools.id, params.poolId))
-      .limit(1);
-    if (!current) throw new AppError('NOT_FOUND', 'Match pool not found', 404);
-
-    const matchedMinor = (BigInt(current.matchedMinor) + params.matchedIncrementMinor).toString();
-    const settledRows = await db
-      .update(matchPools)
-      .set({
-        remainingMinor: params.remainingMinor.toString(),
-        matchedMinor,
-        status,
-        version: sql`${matchPools.version} + 1`,
-        updatedAt: new Date(),
-      })
-      .where(and(eq(matchPools.id, params.poolId), eq(matchPools.version, current.version)))
-      .returning({ id: matchPools.id });
-
-    if (settledRows.length > 0) {
-      return { remainingMinor: params.remainingMinor.toString(), matchedMinor, status };
-    }
-  }
-
-  throw new AppError('CONFLICT', 'Match pool ledger changed while settling this donation', 409);
-}
-
-function nextCursorFor(rows: { createdAt: Date }[], pageSize: number): string | null {
-  if (rows.length < pageSize) return null;
-  return rows[rows.length - 1].createdAt.toISOString();
-}
-
-function sumOfMinorAmounts(column: AnyPgColumn) {
-  return sum(sql`${column}::numeric`);
-}
-
-function minorAmountOrZero(total: string | null | undefined): string {
-  return total ?? '0';
-}
+]);
 
 export { formatAmount };

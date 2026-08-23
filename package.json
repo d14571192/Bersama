@@ -23,8 +23,7 @@
     "db:push:ci": "dotenv -e .env.local -- drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "seed": "dotenv -e .env.local -- tsx scripts/seed-demo.ts",
-    "demo": "npm run db:push && npm run seed && npm run dev",
-    "prepare": "husky"
+    "demo": "npm run db:push && npm run seed && npm run dev"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
@@ -72,10 +71,7 @@
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
     "typescript": "^5",
-    "vitest": "^4.1.8",
-    "husky": "^9.1.7",
-    "@commitlint/cli": "^19.6.1",
-    "@commitlint/config-conventional": "^19.6.0"
+    "vitest": "^4.1.8"
   },
   "allowScripts": {
     "@swc/core@1.15.40": true,

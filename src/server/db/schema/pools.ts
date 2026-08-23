@@ -13,7 +13,7 @@ export type PoolStatus = (typeof POOL_STATUSES)[number];
 export const poolStatusEnum = pgEnum('pool_status', POOL_STATUSES);
 
 export const matchPools = pgTable(
-  'bersama_match_pools',
+  'match_pools',
   {
     id: uuid('id').defaultRandom().primaryKey(),
     sponsorPublicKey: text('sponsor_public_key').notNull(),

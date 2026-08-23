@@ -1,6 +1,6 @@
 'use client';
 
-import { Activity, ArrowUpRight, HandHeart, Link2, Users, Wallet, Coins } from 'lucide-react';
+import { Activity, ArrowUpRight, Coins, HandHeart, Link2, Users, Wallet } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Footer } from '@/components/Footer';
 import { Nav } from '@/components/Nav';
@@ -64,7 +64,12 @@ export default function StatsPage() {
     { icon: HandHeart, label: 'Gifts matched', value: stats?.donations ?? 0, sub: 'completed donations' },
     { icon: Activity, label: 'Causes', value: stats?.pools ?? 0, sub: 'match pools opened' },
     { icon: Link2, label: 'On-chain txs', value: stats?.onChainTxs ?? 0, sub: 'gifts + matches settled' },
-    { icon: Coins, label: 'Pool balance (on-chain)', value: `${stats?.poolBalanceXlm ?? '0.0000'} XLM`, sub: 'live from SAC balance()' },
+    {
+      icon: Coins,
+      label: 'Pool balance (on-chain)',
+      value: stats ? `${stats.poolBalanceXlm} XLM` : '0.0000 XLM',
+      sub: 'XLM held by pool contract',
+    },
   ];
 
   return (
@@ -96,7 +101,7 @@ export default function StatsPage() {
         </div>
 
         {/* Metric cards */}
-        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {cards.map((c) => (
             <div key={c.label} className="rounded-2xl border border-ink-100 bg-paper p-5 shadow-soft">
               <c.icon className="h-5 w-5 text-bloom-500" />

@@ -8,12 +8,10 @@ import {
   buildFundPoolXdr,
   buildTrustlineXdr,
   newPoolKey,
-  readPoolBalanceStroops,
   submitClassicXdr,
   USDC_ISSUER,
 } from '@/server/stellar';
-import { DONATION_STATUSES, POOL_STATUSES } from '@/server/db/schema';
-import { MAX_PAGE_SIZE, matchPoolService } from '@/server/service/matchPool.service';
+import { matchPoolService } from '@/server/service/matchPool.service';
 
 const gAddress = z
   .string()
@@ -47,27 +45,6 @@ const confirmSchema = z.object({
   memo: z.string().max(28).optional(),
 });
 
-const paginationQuery = {
-  cursor: z.string().datetime().optional(),
-  limit: z.coerce.number().int().min(1).max(MAX_PAGE_SIZE).optional(),
-};
-
-const poolListQuerySchema = z.object({
-  status: z.enum(POOL_STATUSES).optional(),
-  ...paginationQuery,
-});
-
-const donationListQuerySchema = z.object({
-  poolId: z.string().uuid().optional(),
-  status: z.enum(DONATION_STATUSES).optional(),
-  ...paginationQuery,
-});
-
-function readSearchParams(req: NextRequest, names: string[]): Record<string, string | undefined> {
-  const searchParams = new URL(req.url).searchParams;
-  return Object.fromEntries(names.map((name) => [name, searchParams.get(name) ?? undefined]));
-}
-
 function requireWallet(ctx: { publicKey?: string }): string {
   if (!ctx.publicKey) throw new AppError('UNAUTHORIZED', 'Connect your wallet to continue', 401);
   return ctx.publicKey;
@@ -75,9 +52,8 @@ function requireWallet(ctx: { publicKey?: string }): string {
 
 // ── Pools ──────────────────────────────────────────────────────────────
 
-export async function listPools(req: NextRequest) {
-  const query = poolListQuerySchema.parse(readSearchParams(req, ['status', 'cursor', 'limit']));
-  return ok(await matchPoolService.listPools(query));
+export async function listPools(_req: NextRequest) {
+  return ok({ pools: await matchPoolService.listPools() });
 }
 
 /** Build the sponsor-signed `fund_pool` invoke that locks the match on-chain. */
@@ -159,10 +135,9 @@ export async function confirmDonation(req: NextRequest, ctx: { publicKey?: strin
 }
 
 export async function listDonations(req: NextRequest) {
-  const query = donationListQuerySchema.parse(
-    readSearchParams(req, ['poolId', 'status', 'cursor', 'limit']),
-  );
-  return ok(await matchPoolService.listDonations(query));
+  const url = new URL(req.url);
+  const poolId = url.searchParams.get('poolId') ?? undefined;
+  return ok({ donations: await matchPoolService.listDonations(poolId) });
 }
 
 // ── Trustline (Enable USDC opt-in) ───────────────────────────────────────
@@ -183,16 +158,7 @@ export async function confirmTrustline(req: NextRequest, ctx: { publicKey?: stri
 // ── Stats ─────────────────────────────────────────────────────────────
 
 export async function getStats(_req: NextRequest) {
-  const stats = await matchPoolService.getPoolStats();
-  let poolBalanceXlm = '0.0000';
-  try {
-    const stroops = await readPoolBalanceStroops();
-    const xlm = Number(BigInt(stroops)) / 1e7;
-    poolBalanceXlm = xlm.toFixed(4);
-  } catch {
-    /* keep 0.0000 */
-  }
-  return ok({ stats: { ...stats, poolBalanceXlm } });
+  return ok({ stats: await matchPoolService.getPoolStats() });
 }
 
 export async function getInteractionStats(_req: NextRequest) {

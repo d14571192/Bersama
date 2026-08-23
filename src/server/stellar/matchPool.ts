@@ -172,7 +172,6 @@ export async function readPoolRemaining(poolKey: string): Promise<string | null>
   return null;
 }
 
-/** Read the app contract's XLM SAC balance (stroops, i128). Best-effort. */
 export async function readPoolBalanceStroops(): Promise<string> {
   try {
     const account = await soroban.getAccount(READ_SOURCE);
@@ -181,7 +180,7 @@ export async function readPoolBalanceStroops(): Promise<string> {
       networkPassphrase: network.passphrase,
     })
       .addOperation(
-        new Contract(network.xlmSac).call('balance', addrScVal(network.appContractId)),
+        new Contract(network.xlmSac).call('balance', addrScVal(network.matchPoolContractId)),
       )
       .setTimeout(60)
       .build();

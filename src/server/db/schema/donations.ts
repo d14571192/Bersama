@@ -14,7 +14,7 @@ export type DonationStatus = (typeof DONATION_STATUSES)[number];
 export const donationStatusEnum = pgEnum('donation_status', DONATION_STATUSES);
 
 export const donations = pgTable(
-  'bersama_donations',
+  'donations',
   {
     id: uuid('id').defaultRandom().primaryKey(),
     poolId: uuid('pool_id')
