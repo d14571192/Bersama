@@ -171,3 +171,26 @@ export async function readPoolRemaining(poolKey: string): Promise<string | null>
   }
   return null;
 }
+
+/** Read the app contract's XLM SAC balance (stroops, i128). Best-effort. */
+export async function readPoolBalanceStroops(): Promise<string> {
+  try {
+    const account = await soroban.getAccount(READ_SOURCE);
+    const tx = new TransactionBuilder(account, {
+      fee: BASE_FEE,
+      networkPassphrase: network.passphrase,
+    })
+      .addOperation(
+        new Contract(network.xlmSac).call('balance', addrScVal(network.appContractId)),
+      )
+      .setTimeout(60)
+      .build();
+    const sim = await soroban.simulateTransaction(tx);
+    if ('result' in sim && sim.result?.retval) {
+      return (scValToNative(sim.result.retval) as bigint).toString();
+    }
+  } catch {
+    /* best-effort read */
+  }
+  return '0';
+}

@@ -14,6 +14,7 @@ export {
   submitFundPool,
   submitDonate,
   readPoolRemaining,
+  readPoolBalanceStroops,
   type FundResult,
   type DonateResult,
 } from './matchPool';

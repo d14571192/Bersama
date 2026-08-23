@@ -8,6 +8,7 @@ import {
   buildFundPoolXdr,
   buildTrustlineXdr,
   newPoolKey,
+  readPoolBalanceStroops,
   submitClassicXdr,
   USDC_ISSUER,
 } from '@/server/stellar';
@@ -182,7 +183,16 @@ export async function confirmTrustline(req: NextRequest, ctx: { publicKey?: stri
 // ── Stats ─────────────────────────────────────────────────────────────
 
 export async function getStats(_req: NextRequest) {
-  return ok({ stats: await matchPoolService.getPoolStats() });
+  const stats = await matchPoolService.getPoolStats();
+  let poolBalanceXlm = '0.0000';
+  try {
+    const stroops = await readPoolBalanceStroops();
+    const xlm = Number(BigInt(stroops)) / 1e7;
+    poolBalanceXlm = xlm.toFixed(4);
+  } catch {
+    /* keep 0.0000 */
+  }
+  return ok({ stats: { ...stats, poolBalanceXlm } });
 }
 
 export async function getInteractionStats(_req: NextRequest) {

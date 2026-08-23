@@ -6,6 +6,7 @@ import type { Donation, DonationStatus, MatchPool, PoolStatus } from '@/server/d
 import { eventBus } from '@/server/lib/eventBus';
 import { AppError } from '@/server/lib/http';
 import { submitDonate, submitFundPool } from '@/server/stellar';
+import { readPoolBalanceStroops } from '@/server/stellar/matchPool';
 import { formatAmount, truncateKey } from '@/lib/assets';
 
 export const DEFAULT_PAGE_SIZE = 30;
@@ -230,6 +231,7 @@ export const matchPoolService = {
     totalMatchedMinor: string;
     totalImpactMinor: string;
     onChainTxs: number;
+    poolBalanceXlm: string;
   }> {
     const [sessionTotals] = await db
       .select({
@@ -256,6 +258,17 @@ export const matchPoolService = {
       .from(donations)
       .where(eq(donations.status, 'matched'));
 
+    const poolBalanceXlm = await (async () => {
+      try {
+        const stroops = BigInt(await readPoolBalanceStroops());
+        const whole = stroops / 10_000_000n;
+        const fractional = stroops % 10_000_000n;
+        return `${whole}.${fractional.toString().padStart(7, '0').slice(0, 4)}`;
+      } catch {
+        return '0.0000';
+      }
+    })();
+
     return {
       uniqueWallets: sessionTotals?.walletCount ?? 0,
       logins: sessionTotals?.loginCount ?? 0,
@@ -265,6 +278,7 @@ export const matchPoolService = {
       totalImpactMinor: BigInt(minorAmountOrZero(donationTotals?.impactMinor)).toString(),
       onChainTxs:
         (donationTotals?.settledOnChainCount ?? 0) + (poolTotals?.fundedOnChainCount ?? 0),
+      poolBalanceXlm,
     };
   },
 };

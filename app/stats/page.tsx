@@ -1,6 +1,6 @@
 'use client';
 
-import { Activity, ArrowUpRight, HandHeart, Link2, Users, Wallet } from 'lucide-react';
+import { Activity, ArrowUpRight, HandHeart, Link2, Users, Wallet, Coins } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Footer } from '@/components/Footer';
 import { Nav } from '@/components/Nav';
@@ -20,6 +20,7 @@ interface Stats {
   totalMatchedMinor: string;
   totalImpactMinor: string;
   onChainTxs: number;
+  poolBalanceXlm: string;
 }
 
 interface Donation {
@@ -63,6 +64,7 @@ export default function StatsPage() {
     { icon: HandHeart, label: 'Gifts matched', value: stats?.donations ?? 0, sub: 'completed donations' },
     { icon: Activity, label: 'Causes', value: stats?.pools ?? 0, sub: 'match pools opened' },
     { icon: Link2, label: 'On-chain txs', value: stats?.onChainTxs ?? 0, sub: 'gifts + matches settled' },
+    { icon: Coins, label: 'Pool balance (on-chain)', value: `${stats?.poolBalanceXlm ?? '0.0000'} XLM`, sub: 'live from SAC balance()' },
   ];
 
   return (

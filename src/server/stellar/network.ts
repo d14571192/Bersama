@@ -23,6 +23,8 @@ export const network = {
   rpcUrl: env.SOROBAN_RPC_URL,
   /** Native XLM Stellar Asset Contract (no trustline required). */
   xlmSac: env.XLM_SAC_CONTRACT_ID,
+  /** App's own contract address (its on-chain identity / pool account). */
+  appContractId: env.APP_CONTRACT_ID,
   /** Deployed Match Pool Soroban contract. */
   matchPoolContractId: env.MATCH_POOL_CONTRACT_ID,
 } as const;
