@@ -18,6 +18,13 @@ function randomNonce(): string {
   return randomBytes(24).toString('base64url');
 }
 
+export function isChallengeTransactionForPublicKey(
+  tx: { source: string },
+  publicKey: string,
+): boolean {
+  return tx.source === publicKey;
+}
+
 export const authService = {
   async createChallenge(
     publicKey: string,
@@ -54,6 +61,10 @@ export const authService = {
       tx = TransactionBuilder.fromXDR(signedTxXdr, stellar.passphrase);
     } catch {
       throw new AppError('UNAUTHORIZED', 'Invalid transaction XDR', 401);
+    }
+
+    if (!isChallengeTransactionForPublicKey(tx, publicKey)) {
+      throw new AppError('UNAUTHORIZED', 'Transaction source does not match wallet', 401);
     }
 
     const txHash = tx.hash();
